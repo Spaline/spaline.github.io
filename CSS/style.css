@@ -1,0 +1,14 @@
+#landing-header{
+	width: 100%;
+	text-align: center;
+	margin: auto;
+	font-size: 3.5em;
+}
+
+#find-a-salon{
+	text-align: center;
+	margin: auto;
+	font-size:2em;
+	background-color: blue;
+	width:25%;
+}
