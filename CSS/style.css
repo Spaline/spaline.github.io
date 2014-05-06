@@ -1,3 +1,4 @@
+/*========LANDING PAGE========*/
 #landing-header{
 	width: 100%;
 	text-align: center;
@@ -11,4 +12,49 @@
 	font-size:2em;
 	background-color: blue;
 	width:25%;
+}
+
+/*==========Salon Results=========*/
+#salon-results-heading{
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	font-size: 3.5em;
+}
+
+.salon-result{
+	text-align: center;
+	margin: auto;
+	background-color: blue;
+	width:80%;
+}
+
+.result-image{
+	margin: auto;
+	right: 15%;
+	display: inline;
+}
+
+.salon-result-info{
+	display: inline;
+	margin: auto;
+	width: 100%;
+}
+
+/*==========Reservation Form Page=============*/
+#reservation-submit{
+	margin: auto;
+	background-color: blue;
+	width: 30%;
+}
+
+#reservation-header{
+	margin: auto;
+	text-align: center;
+	font-size: 2.5em;
+}
+
+#reservation-form-div{
+	margin: auto;
+	text-align: center;
 }
