@@ -6,13 +6,6 @@
 	font-size: 3.5em;
 }
 
-#find-a-salon{
-	text-align: center;
-	margin: auto;
-	font-size:2em;
-	background-color: blue;
-	width:25%;
-}
 
 /*==========Salon Results=========*/
 #salon-results-heading{
@@ -57,4 +50,16 @@
 #reservation-form-div{
 	margin: auto;
 	text-align: center;
+}
+
+
+
+/*=====SALON=====*/
+.salon{
+	width:90%;
+	margin:0 auto; 
+}
+
+.indent{
+	margin-left: 20px;
 }
