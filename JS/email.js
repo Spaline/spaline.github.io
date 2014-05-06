@@ -17,10 +17,12 @@ function sendConfirmationEmail(frm){
 	Parse.Cloud.run('sendConfirmationEmail', jsonOb, {
 		success: function(confirm){
 			console.log("email sent");
+			alert("You have made your reservation! Check your email for confirmation.");
 			return;
 		},
 		error: function(confirm){
 			console.log("email didn't send");
+			alert("There was an error reserving your time slot.");
 			return;
 		}
 	});
