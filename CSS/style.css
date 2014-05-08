@@ -1,14 +1,71 @@
-#landing-header{
-	width: 100%;
-	text-align: center;
-	margin: auto;
-	font-size: 3.5em;
+@charset "UTF-8";
+
+* {
+    font-family: 'Open Sans', sans-serif;
 }
 
-#find-a-salon{
-	text-align: center;
-	margin: auto;
-	font-size:2em;
-	background-color: blue;
-	width:25%;
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    /*padding: 0 25px;*/
+    /*margin: auto;*/
+    -webkit-tap-highlight-color: rbga(255, 255, 255, 0); 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
+
+h2, p, ol, ul, li {
+    margin:0px;
+    padding:0px;
+}
+
+
+/*----------------------------- landing page -----------------------------*/
+/*========================================================================*/
+
+	#landing-header {
+		position: fixed;
+		top:0;
+		left:0;
+		width: 100%;
+		height: 90%;
+		background: url(../images/spa10.png) no-repeat center center fixed;
+		background-size: cover;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		margin: auto;
+	}
+
+	#landing-footer {
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+	}
+
+	#landing-footer > p {
+        font-size: 1.5em;
+		text-align: center;
+        margin: 0;
+        color: black;
+    }
+
+    #cursive {
+        font-family: 'Alex Brush', 'cursive';
+        font-size: 1.4em !important;
+        text-align: center;
+    }
+
+	#find-a-salon{
+		text-align: center;
+		margin: auto;
+		font-size:2em;
+		background-color: blue;
+		width:25%;
+	}
