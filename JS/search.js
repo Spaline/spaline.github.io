@@ -6,11 +6,19 @@ $(function() {
         success: function(salonList) {
             var availableSalons = [];
             for (var i = 0; i < salonList.length; i++) {
-                availableSalons.push(salonList.get('SalonName'));
+                var salon = salonList[i].get('SalonName')
+                availableSalons.push(salon);
             }
-            console.log(availableSalons);
+            var uniqueSalons = availableSalons.filter(function(elem, index, self) {
+                    return index == self.indexOf(elem);
+            })
+            console.log(uniqueSalons);
             $( "#search" ).autocomplete({
-                source: availableSalons
+                source: uniqueSalons,
+                messages: {
+                    noResults: '',
+                    results: function() {}
+                }
             });
         },
         error: function(salonList, error) {
