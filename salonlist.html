@@ -41,8 +41,9 @@
       console.log(Address);
       //tripdate = String(tripdate);
       //tripdate = tripdate.substr(0, 15);
-      var Open = results[i].get('Open');
-      var Close = results[i].get('Close');
+      var WeekdayOpenTime = results[i].get('WeekdayOpenTime');
+      var SaturdayOpenTime = results[i].get('SaturdayOpenTime');
+      var SundayOpenTime = results[i].get('SundayOpenTime');
       //time = time.concat(" " + am_pm);
       //console.log(time);
       //var driver = results[i].get('Name');
@@ -55,22 +56,26 @@
       q.append(
         '<div class="Salon" data-Address="'
         +Address+
-        '"data-Open="'
-        +Open+
-        '"data-Close="'
-        +results[i].get('Close')+
+        '"data-WeekdayOpenTime="'
+        +WeekdayOpenTime+
+        '"data-WeekdayCloseTime="'
+        +results[i].get('WeekdayOpenTime')+
         '">'+
 
         '<div class="count">'+counter+'</div>'+
         '<p class="Address"> <span>Address:</span>'+
         Address+
         '</p>'+
-        '<p class="Open"> <span>Open Time:</span>'+
-        Open+
+        '<p class="WeekdayOpenTime"> <span>Open Time:</span>'+
+        WeekdayOpenTime+
         '</p>'+
-        '<p class="Close"> <span>Close Time:</span>'+
-        Close+
+        '<p class="SaturdayOpenTime">Open Time:<span> </span>'+
+        SaturdayOpenTime+
+        '</p>'+
+        '<p class="SundayOpenTime">Open Time:<span>Open Time:</span>'+
+        SundayOpenTime+
         '</p>'
+
         //display picture of the salons here(after we get the pictures):
         //<img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
         );
