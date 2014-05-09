@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-  <head>
+	<head>
         <!-- files to be loaded first -->
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,8 +41,9 @@
       console.log(Address);
       //tripdate = String(tripdate);
       //tripdate = tripdate.substr(0, 15);
-      var Open = results[i].get('Open');
-      var Close = results[i].get('Close');
+      var WeekdayOpenTime = results[i].get('WeekdayOpenTime');
+      var SaturdayOpenTime = results[i].get('SaturdayOpenTime');
+      var SundayOpenTime = results[i].get('SundayOpenTime');
       //time = time.concat(" " + am_pm);
       //console.log(time);
       //var driver = results[i].get('Name');
@@ -51,29 +52,32 @@
       // var btn1 = "<a href='#'><i class='fa fa-link btn-email'>  connect with driver</i></a>";
       // var btn2 = "<a href='#' id='join' onclick='badgesystem();'><i class='fa fa-plus-square btn-sign'>  join ride</i></a>";
       var btn2 = ""
-      // var DateTime = date + " " + results[i].get('TravelTime');
-      /*q.append('<div class="ride" data-date="'+tripdate+'" data-time="'+time+'" data-start="'+results[i].get('StartAddress')+'" data-end="'+results[i].get('EndAddress')+'" data-attribute="'+results[i].id+ '"><div class="count">'+counter+'</div><div class="content-shown"><p class="end">'+results[i].get('Destination')+'<span>'+btn2+'</span></p><p class="start"><span>Leaving From: </span>'+results[i].get('StartAddress')+'</p><p class="date"><span>Trip Date: </span>'+tripdate+'</p><p class="time"><span>Time: </span>'+time+'</p><p class="driver"><span>Driver: </span>'+driver+'</p><p class="seats"><span>Available seats: </span>'+seats+'</p><a class="more">click to display more info</a></div><div class="timeline"><div class="waypoint"><div class="circle"></div><p>Start</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Arrive</p></div><div class="line line-dest"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Leave</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>End</p></div></div></div>');  
-    }*/
+     
       q.append(
         '<div class="Salon" data-Address="'
         +Address+
-        '"data-Open="'
-        +Open+
-        '"data-Close="'
-        +results[i].get('Close')+
+        '"data-WeekdayOpenTime="'
+        +WeekdayOpenTime+
+        '"data-WeekdayCloseTime="'
+        +results[i].get('WeekdayOpenTime')+
         '">'+
 
         '<div class="count">'+counter+'</div>'+
         '<p class="Address"> <span>Address:</span>'+
         Address+
         '</p>'+
-        '<p class="Open"> <span>Open Time:</span>'+
-        Open+
+        '<p class="WeekdayOpenTime"> <span>Open Time:</span>'+
+        WeekdayOpenTime+
         '</p>'+
-        '<p class="Close"> <span>Close Time:</span>'+
-        Close+
+        '<p class="SaturdayOpenTime">Open Time:<span> </span>'+
+        SaturdayOpenTime+
+        '</p>'+
+        '<p class="SundayOpenTime">Open Time:<span>Open Time:</span>'+
+        SundayOpenTime+
         '</p>'
 
+        //display picture of the salons here(after we get the pictures):
+        //<img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
         );
     }
   }
@@ -106,13 +110,13 @@
 
 
     <body>
-      <div id="salon list">
-        <h2>salon list</h2>
-      </div>
+    	<div id="salon list">
+    		<h2>salon list</h2>
+    	</div>
 
-      <div id="find-your-salon">
-        <p>find your salon</p>
-      </div>
+    	<div id="find-your-salon">
+    		<p>find your salon</p>
+    	</div>
 
         <p>Salon list: </p>   
         <div id="query"></div>
