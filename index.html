@@ -1,42 +1,208 @@
 <!DOCTYPE html>
 <html>
-	<head>
-        <!-- files to be loaded first -->
-        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="JS/email.js"></script>
-        <script type="text/javascript" src="JS/search.js"></script>
+  <head>
+    <!-- files to be loaded first -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <title>SpaLine</title>
-        <link rel="stylesheet" href="CSS/style.css">
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <title>SpaLine</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="plugins/FontAwesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
+
+    <script type="text/javascript">
+        Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
+        
+        var Salons = Parse.Object.extend("Salons");
+        var query = new Parse.Query(Salons);
+        /*
+        query.find({
+                success: function(results) {
+                alert("Successfully retrieved " + results.length + " scores.");
+                // Do something with the returned Parse.Object values
+                handleData(results);
+            },
+            error: function(error) {
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+        */
+        var counter = 0;
+        query.find({
+        success: function(results) {
+        var q = $('#query');
+        for (var i=0;i < results.length;i++){
+          var Address = results[i].get('Address');
+          //Address.setHours(tripdate.getHours()+5);
+          console.log(Address);
+          //tripdate = String(tripdate);
+          //tripdate = tripdate.substr(0, 15);
+          var Open = results[i].get('Open');
+          var Close = results[i].get('Close');
+          //time = time.concat(" " + am_pm);
+          //console.log(time);
+          //var driver = results[i].get('Name');
+          //var seats = results[i].get('OpenSeats');
+          counter += 1;
+          // var btn1 = "<a href='#'><i class='fa fa-link btn-email'>  connect with driver</i></a>";
+          // var btn2 = "<a href='#' id='join' onclick='badgesystem();'><i class='fa fa-plus-square btn-sign'>  join ride</i></a>";
+          var btn2 = ""
+          // var DateTime = date + " " + results[i].get('TravelTime');
+          /*q.append('<div class="ride" data-date="'+tripdate+'" data-time="'+time+'" data-start="'+results[i].get('StartAddress')+'" data-end="'+results[i].get('EndAddress')+'" data-attribute="'+results[i].id+ '"><div class="count">'+counter+'</div><div class="content-shown"><p class="end">'+results[i].get('Destination')+'<span>'+btn2+'</span></p><p class="start"><span>Leaving From: </span>'+results[i].get('StartAddress')+'</p><p class="date"><span>Trip Date: </span>'+tripdate+'</p><p class="time"><span>Time: </span>'+time+'</p><p class="driver"><span>Driver: </span>'+driver+'</p><p class="seats"><span>Available seats: </span>'+seats+'</p><a class="more">click to display more info</a></div><div class="timeline"><div class="waypoint"><div class="circle"></div><p>Start</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Arrive</p></div><div class="line line-dest"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Leave</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>End</p></div></div></div>');  
+        }*/
+          q.append(
+            '<div class="Salon" data-Address="'
+            +Address+
+            '"data-Open="'
+            +Open+
+            '"data-Close="'
+            +results[i].get('Close')+
+            '">'+
+
+            '<div class="count">'+counter+'</div>'+
+            '<p class="Address"> <span>Address:</span>'+
+            Address+
+            '</p>'+
+            '<p class="Open"> <span>Open Time:</span>'+
+            Open+
+            '</p>'+
+            '<p class="Close"> <span>Close Time:</span>'+
+            Close+
+            '</p>'
+
+            );
+        }
+      }
+    });
+
+        /*
+        function handleData(results){
+
+            var str = "";
+            for (var i = 0;i<results.length;i++){
+                str =results[i].get("Address")+str+"\n";
+                //document.getElementById("query").innerHTML = str+"\n";
+
+            }
+            //alert(str);
+            document.getElementById("query").innerHTML = str+"\n";
+
+        }
+        */
+          // FAST CLICK CODE
+      </script>
     </head>
+
+
     <body>
-    	<div id="header">
-    		<h2>Find a Salon</h2>
-            <div>
-                <input type="text" name="search" id="search">
-                <input type="button" value="Search">
-            </div>
-    	</div>
+        <!-- HEADER -->
+        <div class="header">
+          <h1>Find a Salon
+            <span>
+              <!-- <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+              <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
+            </span>
+          </h1>     
+        </div> 
 
-        <div class="salon">
-            <h1>Hair Cuttery</h1>
-            <div class="indent">
-                <p>State Place SC<br>1103 S State St<br>Chicago, IL 60605<br>(312) 235-0348</p>
-                <h2>Available Times:</h2>
-                <p>6/8 - 9:00 AM</p><a class="button" href='reservation.html?time=8:00 AM&date=6/8/14&salon=Hair Cuttery'>Book</a>
-                <p>6/8 - 10:30 AM</p><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>Book</a>
-                <p>6/8 - 2:00 PM</p><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+        <!-- CONTENT -->
+        <div class="wrapper">
+
+          <!-- navbar -->
+          <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a href="#">Near You</a></li>
+            <li><a href="#">Search</a></li>
+          </ul>
+
+          <!-- salon list -->
+          <div class="row">
+            <div >
+              <div class="thumbnail">
+                <img data-src="holder.js/300x200" alt="Ergo Salon">
+                <div class="caption">
+                  <h3 class="name"><a href="haircuttery.html">Hair Cuttery</a></h3>
+                  <p class="address">1704 Sherman Ave, Evanston, IL 60201</p>
+                  <p class="distance">0.7 mi</p>
+                  <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
+                  <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
+                  <p class="times">
+                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
+                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
+                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
+                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
+                  </p>
+                </div>
+              </div>
             </div>
-            <a href="salonlist.html">see salons</a>  
+
+            <div class="col-sm-4 col-md-3">
+              <div class="thumbnail">
+                <img data-src="holder.js/300x200" alt="Ergo Salon">
+                <div class="caption">
+                  <h3 class="name">Ergo Salon & Spa</h3>
+                  <p class="address">1567 Sherman Ave, Evanston, IL</p>
+                  <p class="distance">0.7 mi</p>
+                  <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
+                  <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
+                  
+                  <p class="times">
+                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
+                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
+                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
+                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-md-3">
+              <div class="thumbnail">
+                <img data-src="holder.js/300x200" alt="Ergo Salon">
+                <div class="caption">
+                  <h3>Salon Roula</h3>
+                  <p>603 Davis St, Evanston, IL</p>
+                  <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
+                  <p>
+                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
+                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
+                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
+                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-md-3">
+              <div class="thumbnail">
+                <img data-src="holder.js/300x200" alt="Ergo Salon">
+                <div class="caption">
+                  <h3>Steven Papageorge Salon and Spa</h3>
+                  <p>1721 Sherman Ave, Evanston, IL</p>
+                  <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
+                  <p>
+                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
+                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
+                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
+                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            
+          </div>
+
+          <p>Salon list: </p>   
+          <div id="query"></div>
+          </div>
         </div>
-
     </body>
 </html>
