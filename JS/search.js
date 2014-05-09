@@ -14,6 +14,7 @@ $(function() {
             })
             console.log(uniqueSalons);
             $( "#search" ).autocomplete({
+                minLength: 2,
                 source: uniqueSalons,
                 messages: {
                     noResults: '',
