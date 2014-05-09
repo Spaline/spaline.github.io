@@ -80,9 +80,9 @@ h2, p, ol, ul, li {
 }
 
 .row {
-	border-left: 1px solid #ddd;
+	/*border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;*/
 	margin-left:0 !important;
 	margin-right:0 !important;
 	padding-top: 13px;
@@ -106,13 +106,27 @@ h2, p, ol, ul, li {
 .list-btns {
 	overflow-x:scroll;
 	color: white;
+	width: 100%;
+	white-space: nowrap;
 }
+
+/*.list-btns > button {
+	float: left;
+}*/
 
 .list-btns > button > a {
 	color: white !important;
 	text-transform: none !important;
 }
 
+.panel-body {
+	height: 60px;
+	overflow: hidden;
+}
+
+.jumbotron {
+	/*padding: 0 !important;*/
+}
 /*----------------------------- landing page -----------------------------*/
 /*========================================================================*/
 
