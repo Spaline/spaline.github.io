@@ -127,6 +127,8 @@ h2, p, ol, ul, li {
 .jumbotron {
 	/*padding: 0 !important;*/
 }
+
+
 /*----------------------------- landing page -----------------------------*/
 /*========================================================================*/
 
@@ -135,8 +137,8 @@ h2, p, ol, ul, li {
 		top:0;
 		left:0;
 		width: 100%;
-		height: 90%;
-		background: url(../images/spa10.png) no-repeat center center fixed;
+		height: 100%;
+		background: url(../images/spa6.jpg) no-repeat center center fixed;
 		background-size: cover;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
@@ -144,10 +146,14 @@ h2, p, ol, ul, li {
 		margin: auto;
 	}
 
-	#landing-footer {
-		position: fixed;
-		bottom: 0;
+	#landing-overlay {
+		background: black;
 		width: 100%;
+		height: 100%;
+		background: rgba(39,62,84,0.82);
+		overflow: hidden;
+		z-index: 2;
+		position: absolute;
 	}
 
 	#landing-footer > p {
@@ -171,8 +177,133 @@ h2, p, ol, ul, li {
 		width:25%;
 	}
 
+	.landing-title {
+		margin-top: 50%;
+		color: white;
+		font-weight: 400;
+		font-size: 3.5em;
+	}
 
+	.mini {
+		color: white;
+		font-size: 0.8em;
+		letter-spacing: 3px;
+		clear: both;
+	}
 
+	#main-btns > a {
+		text-decoration: none;
+		color: black;
+	}
+
+	.sb-search {
+		position: relative;
+		margin-top: 10px;
+		width: 0%;
+		min-width: 60px;
+		height: 60px;
+		float: right;
+		overflow: hidden;
+		-webkit-transition: width 0.3s;
+		-moz-transition: width 0.3s;
+		transition: width 0.3s;
+		-webkit-backface-visibility: hidden;
+	}
+
+	.sb-search-input {
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: none;
+		outline: none;
+		background: #fff;
+		width: 100%;
+		height: 60px;
+		margin: 0;
+		z-index: 10;
+		padding: 20px 65px 20px 20px;
+		font-family: inherit;
+		font-size: 20px;
+		color: #2c3e50;
+	}
+
+	.sb-search-input::-webkit-input-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-search-input:-moz-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-search-input::-moz-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-search-input:-ms-input-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-icon-search,
+	.sb-search-submit  {
+		width: 60px;
+		height: 60px;
+		display: block;
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding: 0;
+		margin: 0;
+		line-height: 60px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.sb-search-submit {
+		background: #fff; /* IE needs this */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* IE 8 */
+	    filter: alpha(opacity=0); /* IE 5-7 */
+	    opacity: 0;
+		color: transparent;
+		border: none;
+		outline: none;
+		z-index: -1;
+	}
+
+	.sb-icon-search {
+		color: black;
+		background: white;
+		z-index: 90;
+		font-size: 22px;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.sb-icon-search:before {
+		content: "\f002";
+		font-family: FontAwesome;
+	}
+
+	/* Open state */
+	.sb-search.sb-search-open,
+	.no-js .sb-search {
+		width: 100%;
+	}
+
+	.sb-search.sb-search-open .sb-icon-search,
+	.no-js .sb-search .sb-icon-search {
+		background: white;
+		color: black;
+		z-index: 11;
+	}
+
+	.sb-search.sb-search-open .sb-search-submit,
+	.no-js .sb-search .sb-search-submit {
+		z-index: 90;
+	}
 
 /*----------------------------- find a salon -----------------------------*/
 /*========================================================================*/
