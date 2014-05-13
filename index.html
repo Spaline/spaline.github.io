@@ -17,47 +17,22 @@
     <link rel="stylesheet" href="CSS/style.css" />
     <link rel="stylesheet" href="plugins/FontAwesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
-
     <script type="text/javascript">
         Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
         
         var Salons = Parse.Object.extend("Salons");
         var query = new Parse.Query(Salons);
-        /*
-        query.find({
-                success: function(results) {
-                alert("Successfully retrieved " + results.length + " scores.");
-                // Do something with the returned Parse.Object values
-                handleData(results);
-            },
-            error: function(error) {
-                alert("Error: " + error.code + " " + error.message);
-            }
-        });
-        */
+
         var counter = 0;
         query.find({
         success: function(results) {
         var q = $('#query');
         for (var i=0;i < results.length;i++){
           var Address = results[i].get('Address');
-          //Address.setHours(tripdate.getHours()+5);
-          console.log(Address);
-          //tripdate = String(tripdate);
-          //tripdate = tripdate.substr(0, 15);
+
           var Open = results[i].get('Open');
           var Close = results[i].get('Close');
-          //time = time.concat(" " + am_pm);
-          //console.log(time);
-          //var driver = results[i].get('Name');
-          //var seats = results[i].get('OpenSeats');
           counter += 1;
-          // var btn1 = "<a href='#'><i class='fa fa-link btn-email'>  connect with driver</i></a>";
-          // var btn2 = "<a href='#' id='join' onclick='badgesystem();'><i class='fa fa-plus-square btn-sign'>  join ride</i></a>";
-          var btn2 = ""
-          // var DateTime = date + " " + results[i].get('TravelTime');
-          /*q.append('<div class="ride" data-date="'+tripdate+'" data-time="'+time+'" data-start="'+results[i].get('StartAddress')+'" data-end="'+results[i].get('EndAddress')+'" data-attribute="'+results[i].id+ '"><div class="count">'+counter+'</div><div class="content-shown"><p class="end">'+results[i].get('Destination')+'<span>'+btn2+'</span></p><p class="start"><span>Leaving From: </span>'+results[i].get('StartAddress')+'</p><p class="date"><span>Trip Date: </span>'+tripdate+'</p><p class="time"><span>Time: </span>'+time+'</p><p class="driver"><span>Driver: </span>'+driver+'</p><p class="seats"><span>Available seats: </span>'+seats+'</p><a class="more">click to display more info</a></div><div class="timeline"><div class="waypoint"><div class="circle"></div><p>Start</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Arrive</p></div><div class="line line-dest"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Leave</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>End</p></div></div></div>');  
-        }*/
           q.append(
             '<div class="Salon" data-Address="'
             +Address+
@@ -83,10 +58,15 @@
       }
     });
       </script>
+      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+      <script src="js/geosearch.js"></script>
+
     </head>
 
 
     <body>
+          <div id="map-canvas"></div>
+
         <!-- HEADER -->
         <div class="header">
           <h1>Find a Salon
