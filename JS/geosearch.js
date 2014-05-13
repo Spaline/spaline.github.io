@@ -40,8 +40,10 @@ function initialize() {
   
   var request = {
     location: initialLocation,
-    radius: '1000',
-    types: ['hair_care', 'beauty_salon']
+    types: ['hair_care'],
+    // radius: '10000',
+    // rankBy: google.maps.places.RankBy.PROMINENCE
+    rankBy: google.maps.places.RankBy.DISTANCE
   };
 
   service = new google.maps.places.PlacesService(map);
@@ -58,27 +60,30 @@ function callback(results, status) {
     }
   }
 }
+var distanceService = new google.maps.DistanceMatrixService();
 
 function callbackTwo(place, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    addSalon(place);
+        distanceService.getDistanceMatrix(
+      {
+        origins: [initialLocation],
+        destinations: [place.geometry.location],
+        travelMode: google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.IMPERIAL
+      }, function(response, status){addSalon(place, response.rows[0].elements[0].duration.text)});
   }
 }
 
-var distanceService = new google.maps.DistanceMatrixService();
-
-function addSalon(place){
-   var distance = distanceService.getDistanceMatrix(
-  {
-    origins: [initialLocation],
-    destinations: [place.geometry.location],
-    travelMode: google.maps.TravelMode.DRIVING,
-    unitSystem: google.maps.UnitSystem.IMPERIAL
-  });
-
+function addSalon(place, distance){
+    console.log(place.types)
     var html = "<li class='col-sm-4 col-md-3 thumbnail'>"
     html += "<img src='"+place.icon+"'></img>"
-    html += "<div class='caption'><h3 class='name'><a href='"+place.website+"'>"+place.name+"</a></h3>"
+    if (place.website != undefined){
+        html += "<div class='caption'><h3 class='name'><a href='"+place.website+"'>"+place.name+"</a></h3>"
+    }   
+    else{
+        html += "<div class='caption'><h3 class='name'>"+place.name+"</h3>"
+    }
     html += "<p class='address'>"+place.formatted_address+"</p>"
     html += "<p class='distance'>"+distance+"</p>"
     html += "</div></div></li>"
