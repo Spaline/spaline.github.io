@@ -19,44 +19,7 @@
     <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript">
         Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
-        
-        var Salons = Parse.Object.extend("Salons");
-        var query = new Parse.Query(Salons);
 
-        var counter = 0;
-        query.find({
-        success: function(results) {
-        var q = $('#query');
-        for (var i=0;i < results.length;i++){
-          var Address = results[i].get('Address');
-
-          var Open = results[i].get('Open');
-          var Close = results[i].get('Close');
-          counter += 1;
-          q.append(
-            '<div class="Salon" data-Address="'
-            +Address+
-            '"data-Open="'
-            +Open+
-            '"data-Close="'
-            +results[i].get('Close')+
-            '">'+
-
-            '<div class="count">'+counter+'</div>'+
-            '<p class="Address"> <span>Address:</span>'+
-            Address+
-            '</p>'+
-            '<p class="Open"> <span>Open Time:</span>'+
-            Open+
-            '</p>'+
-            '<p class="Close"> <span>Close Time:</span>'+
-            Close+
-            '</p>'
-
-            );
-        }
-      }
-    });
       </script>
       <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
       <script src="js/geosearch.js"></script>
@@ -65,15 +28,12 @@
 
 
     <body>
-          <div id="map-canvas"></div>
+          <div id="map-canvas"></div>  
 
         <!-- HEADER -->
         <div class="header">
           <h1>Find a Salon
-            <span>
-              <!-- <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
-              <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
-            </span>
+
           </h1>     
         </div> 
 
@@ -81,94 +41,14 @@
         <div class="wrapper">
 
           <!-- navbar -->
-          <ul class="nav nav-tabs nav-justified">
+        <!--   <ul class="nav nav-tabs nav-justified">
             <li class="active"><a href="#">Near You</a></li>
             <li><a href="#">Search</a></li>
           </ul>
-
+ -->
           <!-- salon list -->
-          <div class="row">
-            <div class="col-sm-4 col-md-3">
-              <div class="thumbnail">
-                <img data-src="holder.js/300x200" alt="picture">
-                <div class="caption">
-                  <h3 class="name"><a href="haircuttery.html">Hair Cuttery</a></h3>
-                  <p class="address">1103 S State St., Chicago, IL 60605</p>
-                  <p class="distance">0.7 mi</p>
-                  <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
-                  <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
-                  <!-- <p class="times">
-                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
-                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
-                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
-                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
-                  </p> -->
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-4 col-md-3">
-              <div class="thumbnail">
-                <img data-src="holder.js/300x200" alt="picture">
-                <div class="caption">
-                  <h3 class="name">Ergo Salon & Spa</h3>
-                  <p class="address">1567 Sherman Ave, Evanston, IL</p>
-                  <p class="distance">0.7 mi</p>
-                  <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
-                  <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
-                  
-                  <!-- <p class="times">
-                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
-                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
-                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
-                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
-                  </p> -->
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-4 col-md-3">
-              <div class="thumbnail">
-                <img data-src="holder.js/300x200" alt="picture">
-                <div class="caption">
-                  <h3 class="name">Salon Roula</h3>
-                  <p>603 Davis St, Evanston, IL</p>
-                  <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
-                  <p class="cost"><i class="fa fa-usd"></i></i></p>
-                  <!-- <p>
-                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
-                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
-                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
-                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
-                  </p> -->
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-4 col-md-3">
-              <div class="thumbnail">
-                <img data-src="holder.js/300x200" alt="picture">
-                <div class="caption">
-                  <h3 class="name">Steven Papageorge Salon and Spa</h3>
-                  <p>1721 Sherman Ave, Evanston, IL</p>
-                  <p><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
-                  <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
-                  <!-- <p>
-                    <a href="#" class="btn btn-default" role="button">11:00 am</a> 
-                    <a href="#" class="btn btn-default" role="button">11:20 am</a>
-                    <a href="#" class="btn btn-default" role="button">12:00 pm</a>
-                    <a href="#" class="btn btn-default" role="button">1:00 pm</a>
-                  </p> -->
-                </div>
-              </div>
-            </div>
-
-            
-          </div>
-
-          <!-- <p>Salon list: </p>   
-          <div id="query"></div> -->
-          </div>
+          <ul id="salonList" class="row">                      
+          </ul>
         </div>
     </body>
 </html>

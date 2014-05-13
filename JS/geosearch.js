@@ -36,11 +36,11 @@ function initialize() {
   // }
 
 
-  /*=== Create a places request ===*/
+/*=== Create a places request ===*/
   
   var request = {
     location: initialLocation,
-    radius: '1500',
+    radius: '1000',
     types: ['hair_care', 'beauty_salon']
   };
 
@@ -49,27 +49,59 @@ function initialize() {
 }
 
 function callback(results, status) {
-    console.log(JSON.stringify(results))
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      createMarker(results[i]);
+        var request = {
+            reference: results[i].reference
+        }
+        service.getDetails(request, callbackTwo);
     }
   }
 }
 
-function createMarker(place) {
-  var placeLoc = place.geometry.location;
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
+function callbackTwo(place, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    addSalon(place);
+  }
+}
+
+var distanceService = new google.maps.DistanceMatrixService();
+
+function addSalon(place){
+   var distance = distanceService.getDistanceMatrix(
+  {
+    origins: [initialLocation],
+    destinations: [place.geometry.location],
+    travelMode: google.maps.TravelMode.DRIVING,
+    unitSystem: google.maps.UnitSystem.IMPERIAL
   });
 
-  google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(place.name);
-    infowindow.open(map, this);
-  });
+    var html = "<li class='col-sm-4 col-md-3 thumbnail'>"
+    html += "<img src='"+place.icon+"'></img>"
+    html += "<div class='caption'><h3 class='name'><a href='"+place.website+"'>"+place.name+"</a></h3>"
+    html += "<p class='address'>"+place.formatted_address+"</p>"
+    html += "<p class='distance'>"+distance+"</p>"
+    html += "</div></div></li>"
+  //     <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
+  // <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
+    
+    $('#salonList').append(html);
 }
+
+/* === map generation (later) === */
+
+// function createMarker(place) {
+//   var placeLoc = place.geometry.location;
+//   var marker = new google.maps.Marker({
+//     map: map,
+//     position: place.geometry.location
+//   });
+
+//   google.maps.event.addListener(marker, 'click', function() {
+//     infowindow.setContent(place.name);
+//     infowindow.open(map, this);
+//   });
+// }
 
   // function handleNoGeolocation(errorFlag) {
   //   if (errorFlag == true) {
