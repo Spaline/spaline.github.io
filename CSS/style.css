@@ -135,6 +135,12 @@ h2, p, ol, ul, li {
 	/*padding: 0 !important;*/
 }
 
+.alert {
+    display: none;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    text-align: center;
+}
 
 /*----------------------------- landing page -----------------------------*/
 /*========================================================================*/

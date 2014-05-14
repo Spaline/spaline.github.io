@@ -70,20 +70,24 @@ function callbackTwo(place, status) {
         destinations: [place.geometry.location],
         travelMode: google.maps.TravelMode.DRIVING,
         unitSystem: google.maps.UnitSystem.IMPERIAL
-      }, function(response, status){addSalon(place, response.rows[0].elements[0].duration.text)});
+      }, function(response, status){addSalon(place, response.rows[0].elements[0].distance.text)});
   }
 }
 
 function addSalon(place, distance){
-    console.log(place.types)
-    var html = "<li class='col-sm-4 col-md-3 thumbnail'>"
-    html += "<img src='"+place.icon+"'></img>"
-    if (place.website != undefined){
-        html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>"
-    }   
-    else{
-        html += "<div class='caption'><h3 class='name'>"+place.name+"</h3>"
+    console.log(place);
+    pic = insertPic(place.photos);
+    if (pic != '') {
+      var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
+      html += pic; 
     }
+
+    else {
+      var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
+    }
+
+    
+    html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>";
     html += "<p class='address'>"+place.formatted_address+"</p>"
     html += "<p class='distance'>"+distance+"</p>"
     html += "</div></div></li>"
@@ -92,6 +96,24 @@ function addSalon(place, distance){
     
     $('#salonList').append(html);
 }
+
+
+function insertPic(data) {
+    if (!data) {
+      var pic = "";
+      return pic;
+    }
+
+    else {
+      var url = data[0].getUrl({'maxWidth': 150, 'maxHeight': 150});
+      // console.log(url);
+      var pic = "<img src='"+url+"'>";
+      // console.log(pic);
+      return pic;
+      // console.log(pic);
+    } 
+}
+
 
 /* === map generation (later) === */
 
