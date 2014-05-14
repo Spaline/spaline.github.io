@@ -4,7 +4,7 @@
         <!-- files to be loaded first -->
         <script src="js/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
-        <script type="text/javascript" src="JS/email.js"></script>
+        <script type="text/javascript" src="JS/utilities.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
         
 
@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
     </head>
 
-    <body>
+    <body onload="populateReservationInfo()">
         <!-- HEADER -->
         <div class="header">
             <h1>Confirm Your Reservation</h1>     
@@ -32,9 +32,6 @@
 
             <div class="jumbotron">
                 <h3>Reservation Details</h3>
-                <h5 class="name">Hair Cuttery</h5>
-                <h5>Date: 6/8/14</h5>
-                <h5>Time: 2:00 pm</h5>
             </div>
 
             <div id="reservation-form-div">

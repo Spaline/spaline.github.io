@@ -79,7 +79,7 @@ function addSalon(place, distance){
     var html = "<li class='col-sm-4 col-md-3 thumbnail'>"
     html += "<img src='"+place.icon+"'></img>"
     if (place.website != undefined){
-        html += "<div class='caption'><h3 class='name'><a href='"+place.website+"'>"+place.name+"</a></h3>"
+        html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>"
     }   
     else{
         html += "<div class='caption'><h3 class='name'>"+place.name+"</h3>"

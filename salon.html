@@ -5,6 +5,8 @@
         <script src="js/jquery-1.11.0.min.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+        <script type="text/javascript" src="js/salongeneration.js"></script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -20,10 +22,11 @@
     </head>
     
     <body>
+    	<div id="map-canvas"></div> 
         
         <!-- HEADER -->
         <div class="header">
-            <h1>Hair Cuttery
+            <h1 id="title">
                 <span>
                     <!-- <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
                     <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
@@ -60,97 +63,17 @@
             <div class="stylists">
                 <div class="info">
                     <div class="quick-info">
-                        <h2 class="name">Hair Cuttery</h2>
-                        <h5 class="type">hair salon, spa</h5>
-                        <p class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
-                        <p class="price">Price Range: <i class="fa fa-usd"></i></p>
                     </div>
 
                     <div class="location">
-                        <h3 class="divider">Location</h3>
-                        <h5>State Place SC</h5>
-                        <h5>1103 S State St.</h5>
-                        <h5>Chicago, IL 60605</h5>
-                        <h5>312-235-0348</h5>
+
                     </div>
 
                     <div class="details">
-                        <h3 class="divider">Details</h3>
-                        <h5>Mon - Fri: 09:00 AM - 09:00 PM</h5>
-                        <h5>Sat: 08:00 AM - 08:00 PM</h5>
-                        <h5>Sun: 09:00 AM - 05:00 PM</h5>
                     </div>
 
                     <div class="list-stylists">
-                        <h3 class="divider">Stylists</h3>
                         
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Harvey Specter</h3>
-                            </div>
-
-                            <div class="panel-body">
-                                <div class="list-btns">
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery&address=Northwest Shopping Center, 527 E. Dundee Road, Palatine, IL 60074'>9:00 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Olivia Pope</h3>
-                            </div>
-
-                            <div class="panel-body">
-                                <div class="list-btns">
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>9:00 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Arya Stark</h3>
-                            </div>
-
-                            <div class="panel-body">
-                                <div class="list-btns">
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>9:00 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Jon Snow</h3>
-                            </div>
-
-                            <div class="panel-body">
-                                <div class="list-btns">
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>9:00 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
-                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
