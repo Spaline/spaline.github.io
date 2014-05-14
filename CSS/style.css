@@ -72,6 +72,13 @@ h2, p, ol, ul, li {
     letter-spacing: 0px;
 }
 
+#back {
+    float: left;
+    margin-left: 3%;
+    color: black !important;
+}
+
+
 .wrapper {
 	margin-top: 50px;
 	margin-left: 7%;
@@ -379,6 +386,7 @@ h2, p, ol, ul, li {
 
 .reviews {
 	display: none;
+	text-align: left;
 }
 
 #salon-results-heading{
@@ -412,6 +420,10 @@ h2, p, ol, ul, li {
 	height: 65px;
 }
 
+.img-circle {
+	width: 64px;
+}
+
 /*==========Reservation Form Page=============*/
 #reservation-submit{
 	margin: auto;
@@ -436,6 +448,9 @@ h2, p, ol, ul, li {
 	margin:0 auto; 
 }
 
+#salonList > li{
+	width: 100%;
+}
 .indent{
 	margin-left: 20px;
 }

@@ -31,10 +31,11 @@ function generateSalonPage(salon, status){
 	{
 		console.log(salon);
 		insertPageHeader(salon.name);
-		insertQuickInfo(salon.name, salon.types, salon.rating, salon.price_level)
+		insertQuickInfo(salon.name, salon.types, salon.user_ratings_total, salon.price_level, salon.website)
 		insertLocationInfo(salon.formatted_address, salon.formatted_phone_number);
 		insertHoursInfo(salon.opening_hours.periods);
 		getStylists(salon.name, salon.formatted_address, salon.opening_hours.periods);
+		insertReviews(salon.reviews);
 	}
 	else
 	{
@@ -44,13 +45,14 @@ function generateSalonPage(salon, status){
 
 function insertPageHeader(name){
 	var x = $('.header');
-	x.prepend("<h1>"+name+"</h1>");
+	x.append("<h1 id='title'>"+name+"<span><a href='results.html' id='back'><i class='fa fa-chevron-left fa-lg'></i></a></span></h1>");
 }
 
-function insertQuickInfo(name, type, rating, price){
+function insertQuickInfo(name, type, rating, price, url){
 	var x = $('.quick-info');
 	var namestr = "<h2 class=\"name\">"+name+"</h2>";
 	
+	// get the type
 	var typestr ="<h5 class=\"type\">";
 	for(i = 0; i < type.length; i++)
 	{
@@ -62,19 +64,31 @@ function insertQuickInfo(name, type, rating, price){
 	}
 	typestr += "</h5>";
 
+	// get the rating
 	var starstr = createRatingString(rating);
 	var ratingstr = "<p class=\"stars\">" + starstr + "</p>";
 
+	// get the amount
 	var dollarstr = createPriceString(price);
-	var pricestr = "<p class=\"price\">Price Range: " + dollarstr + "</p>";
+	var pricestr = "";
+	if (dollarstr == "Could not get price level") {
+		pricestr = "";
+	}
+	else {
+		pricestr = "<p class=\"price\">Price Range: " + dollarstr + "</p>";
+	}
+	
+	// get the link
+	var link = "<p class='link'>Website: " + url + "</p>";
 
-	var resultstr = namestr + typestr + ratingstr + pricestr;
+	// print everything
+	var resultstr = namestr + typestr + ratingstr + pricestr + link;
 	x.prepend(resultstr);
 }
 
 function insertLocationInfo(address, phone){
 	var x = $('.location');
-	var headerstr = "<h3 class=\"divider\">Location</h3>";
+	var headerstr = "<h3 class='divider'>Location</h3>";
 	var addressStr = "<h5>" + address+ "</h5>";
 	var phonestr = "<h5>"+phone+"</h5>";
 	resultstr = headerstr +addressStr + phonestr;
@@ -109,9 +123,21 @@ function sortOpeningTimes(a, b){
 	return a.open.day - b.open.day;
 }
 
+function insertReviews(data) {
+	for (var i=0; i < data.length; i++) {
+		var text = data[i].text;
+		var rating = createRatingString(data[i].rating);
+		var author = data[i].author_name;
+		var num = Math.floor((Math.random()*4)+1);
+		var pic = '<img src="images/'+num+'.png" class="img-circle media-object" />';
+		var a = '<div class="media"><a class="pull-left" href="#">'+pic+'</a><div class="media-body"><h4 class="media-heading">'+rating+'</h4><p>'+text+'</p></div></div>';
+		$('.reviews').append(a);
+	}
+}
+
 //for querying database to get stylists names
 function getStylists(salon_name, salon_address, hours){
-	var stylists = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow'];
+	var stylists = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
 	var date = new Date();
 	var datestr = makeTommorrowsDateStr(date);
 	getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr);
@@ -124,6 +150,7 @@ function makeTommorrowsDateStr(date){
 	var dstring = String(date.getMonth() + 1)+"/"+String(date.getDate())+"/"+String(date.getYear() + 1900);
 	return dstring;
 }
+
 //will query database returning appointment objects for all the stylists in the group for a specific date
 //will have to use containedIn to filter through database objects
 function getStylistsAppointments(salon_name, salon_address, hours, stylists, date){
@@ -181,7 +208,6 @@ function getTodaysHours(today, hours){
 }
 
 function createRatingString(rating){
-
 	var full = "<i class=\"fa fa-star\"></i>";
 	var half = "<i class=\"fa fa-star-half-o\"></i>";
 
@@ -221,13 +247,14 @@ function createRatingString(rating){
 	{
 		return full+full+full+full+half;
 	}
-	if(rating > 4.75 && rating < 5)
+	if(rating > 4.75 && rating <= 5)
 	{
 		return full+full+full+full+full;
 	}
 	else
 	{
-		return "Can not get rating";
+		return "";
+		console.log('Cannot get rating string');
 	}
 }
 
@@ -299,9 +326,9 @@ function getAvailableTimes(hours, appointments){
 
 function makeButtonString(salon_name, salon_address, time, date){
 	var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&salonaddress="+salon_address;
-	console.log(link);
-	console.log(salon_name);
-	console.log(salon_address);
+	// console.log(link);
+	// console.log(salon_name);
+	// console.log(salon_address);
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">"+
 					"<a class=\"button\" href=\"reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&address="+salon_address+"\">"+time+"</a></button>";
 	return buttonStr;
