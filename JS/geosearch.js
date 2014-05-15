@@ -7,7 +7,7 @@ var requestLocation;
 function getUserLocation(){
   if(navigator.geolocation)
   {
-    navigator.geolocation.getCurrentPosition(requestSalonInformation);
+    navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
   }
   else
   {
@@ -112,9 +112,11 @@ function insertPic(data) {
 
 function handleNoGeolocation(errorFlag) {
   if (errorFlag) {
+    console.log("Geolocation services failed");
     var content = 'Error: The Geolocation service failed.';
   } else {
     var content = 'Error: Your browser doesn\'t support geolocation.';
+    console.log("Your browser does not support geolocation services");
   }
 
   var options = {
@@ -127,5 +129,50 @@ function handleNoGeolocation(errorFlag) {
   map.setCenter(options.position);
 }
 
+function handleLocationErrors(error){
+  console.log("Error in retriving location");
+  switch(error.code)
+  {
+    case error.PERMISSION_DENIED:
+      handlePermissionDenied();
+      break;
+    case error.POSITION_UNAVAILABLE:
+      handlePositionUnavailable();
+      break;
+    case error.TIMEOUT:
+      handleTimeout();
+      break;
+    case error.UNKOWN_ERROR:
+      handleUnknown();
+      break;
+  }
+}
+
+function handlePermissionDenied(){
+  console.log("ERROR: User denied permission to location services");
+  var x = $('.wrapper');
+  x.append("<h3>Sorry, you need to allow location services to see this page</h3>");
+}
+
+function handlePositionUnavailable(){
+  console.log("ERROR: User's Position is unavailable");
+  var x = $('.wrapper');
+  x.append("<h3>Sorry, it looks like your position is temporarily unavailable</h3>");
+  x.append("<p>Check your network connection and make sure you have location services enabled, then try again</p>");
+}
+
+function handleTimeout(){
+  console.log("ERROR: Timeout occurred when getting location");
+  var x = $('.wrapper');
+  x.append("<h3>Sorry, it looks like a timeout occurred when trying to get your location</h3>");
+  x.append("<p>Check your network connection and try again</p>");
+}
+
+function handleUnknown(){
+  console.log("ERROR: An unknown error occurred");
+  var x = $('.wrapper');
+  x.append("<h3>Sorry, it looks like an unknown error occurred</h3>");
+  x.append("<p>Please try your request again</p>");
+}
 
 google.maps.event.addDomListener(window, 'load', getUserLocation);
