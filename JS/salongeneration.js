@@ -163,7 +163,7 @@ function insertReviews(data) {
 		var author = data[i].author_name;
 		var num = Math.floor((Math.random()*4)+1);
 		var pic = '<img src="images/'+num+'.png" class="img-circle media-object" />';
-		var a = '<div class="media"><a class="pull-left" href="#">'+pic+'</a><div class="media-body"><h4 class="media-heading">'+rating+'</h4><p>'+text+'</p></div></div>';
+		var a = '<div class="media"><a class="pull-left" href="#">'+pic+'</a><div class="media-body"><h4 class="media-heading">'+rating+'</h4><p>'+text+'</p><p><small> - '+author+'</small></p></div></div>';
 		$('.reviews').append(a);
 	}
 }

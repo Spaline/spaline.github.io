@@ -130,10 +130,6 @@ h2, p, ol, ul, li {
 	overflow: hidden;
 }
 
-.panel-body {
-	padding: 0px !important;
-}
-
 .jumbotron {
 	/*padding: 0 !important;*/
 }
@@ -415,6 +411,7 @@ h2, p, ol, ul, li {
 .location, .details, .list-stylists {
 	margin-top: 40px;
 }
+
 .services {
 	display: none;
 }
@@ -422,6 +419,7 @@ h2, p, ol, ul, li {
 .reviews {
 	display: none;
 	text-align: left;
+	margin-top: 20px;
 }
 
 #salon-results-heading{
@@ -458,6 +456,12 @@ h2, p, ol, ul, li {
 .img-circle {
 	width: 64px;
 }
+
+.panel-list {
+	height: 60px;
+	overflow: hidden;
+}
+
 
 /*==========Reservation Form Page=============*/
 #reservation-submit{

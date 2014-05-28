@@ -144,7 +144,7 @@ function addSalon(place, distance){
       if(!!place.opening_hours)
       {
         // console.log("opening hours exists");
-        var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
+        var appointHeaderStr = "<div class=\"panel-list\"><div class=\"list-btns\">";
         var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
         var appointmentStr = createAppointmentButtons(place);
         buttons = appointHeaderStr +appointmentStr + "</div></div>";
