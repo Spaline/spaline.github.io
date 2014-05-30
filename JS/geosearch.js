@@ -4,6 +4,7 @@ var infowindow;
 var browserSupportFlag =  new Boolean();
 var requestLocation;
 var RUSH = false;
+var requestName;
 function getUserLocation(){
   if(navigator.geolocation)
   {
@@ -17,32 +18,33 @@ function getUserLocation(){
   else
   {
     console.log("Handle no geolocation 1");
-      browserSupportFlag = false;
-      handleNoGeolocation(browserSupportFlag);
+    browserSupportFlag = false;
+    handleNoGeolocation(browserSupportFlag);
   }
 }
 
 function requestSalonInformation(position){
   if(position)
   {
-  requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  var myOptions = {
-              zoom: 6,
-              mapTypeId: google.maps.MapTypeId.ROADMAP,
-              center: requestLocation
-            }
+    requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var myOptions = {
+                zoom: 6,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                center: requestLocation
+              }
 
-    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-  map.setCenter(requestLocation);
-  console.log("Requesting Location is: "+ requestLocation);
-  var request = {
-                  location : requestLocation,
-                  types: ['hair_care'],
-                  rankBy: google.maps.places.RankBy.DISTANCE
-                };
+      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+    map.setCenter(requestLocation);
+    console.log("Requesting Location is: "+ requestLocation);
+    var request = {
+                    location : requestLocation,
+                    types: ['hair_care'],
+                    rankBy: google.maps.places.RankBy.DISTANCE
+                  };
 
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, getResultDetails);
+    service = new google.maps.places.PlacesService(map);
+    //service.nearbySearch(request, getResultDetails);
+    service.nearbySearch(request, getResultDistance);
   }
   else
   {
@@ -54,32 +56,33 @@ function requestSalonInformation(position){
 function requestSpecificSalonInformation(position){
   if(position)
   {
-  var requestName = '';
-  var keywords = top.window.location.search.split("=")[1].split("+");
-  for (var i = 0; i < keywords.length; i++) {
-    requestName = requestName + keywords[i] + ' ';
-  }
-  // console.log(requestName);
+    requestName = '';
+    var keywords = top.window.location.search.split("=")[1].split("+");
+    for (var i = 0; i < keywords.length; i++) {
+      requestName = requestName + keywords[i] + ' ';
+    }
+    // console.log(requestName);
 
-  requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  var myOptions = {
-              zoom: 6,
-              mapTypeId: google.maps.MapTypeId.ROADMAP,
-              center: requestLocation
-            }
+    requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var myOptions = {
+                zoom: 6,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                center: requestLocation
+              }
 
-    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-  map.setCenter(requestLocation);
-  // console.log("Requesting Location is: "+ requestLocation);
-  var request = {
-                  location : requestLocation,
-                  name: [requestName],
-                  types: ['hair_care'],
-                  rankBy: google.maps.places.RankBy.DISTANCE
-                };
+      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+    map.setCenter(requestLocation);
+    // console.log("Requesting Location is: "+ requestLocation);
+    var request = {
+                    location : requestLocation,
+                    name: [requestName],
+                    types: ['hair_care'],
+                    rankBy: google.maps.places.RankBy.DISTANCE
+                  };
 
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, getResultDetails);
+    service = new google.maps.places.PlacesService(map);
+    //service.nearbySearch(request, getResultDetails);
+    service.nearbySearch(request, getResultDistance);
   }
   else
   {
@@ -88,47 +91,100 @@ function requestSpecificSalonInformation(position){
   }
 }
 
-function getResultDetails(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-        var request = {
-            reference: results[i].reference
-        }
-        service.getDetails(request, getResultDistance);
-    }
-    //var i = 0;
-    // console.log(results);
-    //function delayLoop() {
-        //setTimeout(function() {
-          //  var request = {
-          //      reference: results[i].reference
-            //}
-            //service.getDetails(request, getResultDistance);
-          //  i++;
-        //    if (i < results.length) delayLoop();
-      //  }, 300)
-    //}
-    
-    //delayLoop();
-  }
-}
 var distanceService = new google.maps.DistanceMatrixService();
 
 function getResultDistance(place, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-        distanceService.getDistanceMatrix(
-      {
-        origins: [requestLocation],
-        destinations: [place.geometry.location],
-        travelMode: google.maps.TravelMode.DRIVING,
-        unitSystem: google.maps.UnitSystem.IMPERIAL
-      }, function(response, status){addSalon(place, response.rows[0].elements[0].distance.text)});
+    var locationArray = [];
+    for (var i = 0; i < place.length; i++) {
+      locationArray.push(place[i].geometry.location);
+    }
+    distanceService.getDistanceMatrix(
+    {
+      origins: [requestLocation],
+      destinations: locationArray,
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.IMPERIAL
+    //}, function(response, status){addSalon(place, response.rows[0].elements[0].distance.text)});
+    }, function(response, status) {
+      getResultDetails(place, response, status)
+    });
+  }
+  else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
+  {
+    notifyNoResults();
+  }
+}
+
+function sortWithIndices(distanceArray) {
+  var toSort = [];
+  for (var i = 0; i < distanceArray.length; i++) {
+    toSort.push([distanceArray[i], i]);
+  }
+
+  toSort.sort(function(left, right) {
+    return left[0] < right[0] ? -1 : 1;
+  });
+
+  toSort.sortIndices = [];
+  for (var j = 0; j < toSort.length; j++) {
+    toSort.sortIndices.push(toSort[j][1]);
+  }
+  return toSort.sortIndices;
+}
+
+function getPlaceSorted(places, distanceArray) {
+  var result = [];
+  console.log(distanceArray);
+  orderArray = sortWithIndices(distanceArray);
+  for (var i = 0; i < distanceArray.length; i++) {
+    result[i] = places[orderArray[i]];
+  }
+  return result;
+}
+
+function getResultDetails(places, response, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) 
+  {
+    var initDistanceValue = [];
+    var initDistanceText = [];
+    for (var i = 0; i < places.length; i++) {
+      initDistanceValue.push(response.rows[0].elements[i].distance.value);
+      initDistanceText.push(response.rows[0].elements[i].distance.text);
+    }
+
+    var placeArray = [];
+    var distanceArray = [];
+    for (var i = 0; i < places.length; i++) {
+
+      // Bind the function with counter i
+      (function(counter) {
+         var request = {
+           reference: places[counter].reference
+         };
+         service.getDetails(request, function(place, status) {
+           if (status == google.maps.places.PlacesServiceStatus.OK) {
+             placeArray.push([place, initDistanceText[counter]]);
+             distanceArray.push(initDistanceValue[counter]);
+
+             upLimit = Math.min(9, places.length);
+             if (placeArray.length == upLimit) {
+               var placeDetails = getPlaceSorted(placeArray, distanceArray);
+               for (var j = 0; j < upLimit; j++) {
+                 addSalon(placeDetails[j][0], placeDetails[j][1]);
+               }
+             }
+           }
+         });
+      })(i);
+    }
   }
 }
 
 function addSalon(place, distance){
-    // console.log(place);
     pic = insertPic(place.photos);
+    var rating = createRatingString(place.rating);
+    var price = createPriceString(place.price_level);
     if (pic != '') {
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
       html += pic; 
@@ -144,31 +200,125 @@ function addSalon(place, distance){
       if(!!place.opening_hours)
       {
         // console.log("opening hours exists");
-        var appointHeaderStr = "<div class=\"panel-list\"><div class=\"list-btns\">";
+        var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
         var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
         var appointmentStr = createAppointmentButtons(place);
-        buttons = appointHeaderStr +appointmentStr + "</div></div>";
-
+        console.log("Appointment string is: ", appointmentStr);
+        if(appointmentStr == "")
+        {
+          buttons = "<div class='appts'><p class='btn_alert'>Sorry, it looks like this salon has no more available appointments today</p>";
+          buttons += "<p class='btn_alert'>Click on the salon name to choose an appointment for a future date</p></div>";
+        }
+        else
+        {
+          buttons = appointHeaderStr +appointmentStr + "</div>";
+        }
       }
       else
       {
-        buttons = "<p>Sorry, it looks like this salon's hours are not available</p>";
-        buttons += "<p>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p>";
+        buttons = "<div class='appts'><p class='btn_alert'>Sorry, it looks like this salon's hours are not available</p>";
+        buttons += "<p class='btn_alert'>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p></div>";
       }
     }
     // console.log("Buttons is: ",buttons);
 
     html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>";
-    html += "<p class='address'>"+place.formatted_address+"</p>"
+    var end = ", IL, United States";
+    var address = place.formatted_address;  
+    var short_address = address.substring(0,(address.length - end.length));
+    html += "<p class='rate'>"+rating+"</p>"
+    html += "<p class='address'>"+short_address+"</p>"
     html += "<p class='distance'>"+distance+"</p>"
+    html += "<p class='price'>"+price+"</p></div>"
     html += buttons
-    html += "</div></div></li>"
+    html += "</li>"
 
   //     <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
   // <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
     
     $('#salonList').append(html);
 }
+
+
+//create the price string to append based on the google places api
+function createPriceString(price){
+  var dollarstr = "<i class=\"fa fa-usd\"></i>";
+  var retstr = "";
+  if(isNaN(price))
+  {
+    var num = Math.floor((Math.random()*3)+1);
+    for(i = 0; i < num; i++)
+    {
+      retstr += dollarstr;
+    }
+  }
+  else
+  {
+    for(i = 0; i < price; i++)
+    {
+      retstr += dollarstr;
+    }
+  }
+
+  return retstr;
+}
+
+
+//creates the rating string to append based on the average review rating
+function createRatingString(rating){
+  var full = "<i class=\"fa fa-star\"></i>";
+  var half = "<i class=\"fa fa-star-half-o\"></i>";
+  var num = 0;
+
+  if(isNaN(rating)) {
+    num = Math.floor((Math.random()*5)+1);
+  }
+  if(rating <= 0.5 || num == 0)
+  {
+    return half;
+  }
+  if(rating > 0.5 && rating <= 1.25 || num == 1)
+  {
+    return full;
+  }
+  if(rating > 1.25 && rating <= 1.75)
+  {
+    return full+half;
+  }
+  if(rating > 1.75 && rating <= 2.25 || num == 2)
+  {
+    return full+full;
+  }
+  if(rating > 2.25 && rating <= 2.75)
+  {
+    return full+full+half;
+  }
+  if(rating > 2.75 && rating <= 3.25 || num == 3)
+  {
+    return full+full+full;
+  }
+  if(rating > 3.25 && rating <= 3.75)
+  {
+    return full+full+full+half;
+  }
+  if(rating > 3.75 && rating <= 4.25 || num == 4)
+  {
+    return full+full+full+full;
+  }
+  if(rating > 4.25 && rating <= 4.75)
+  {
+    return full+full+full+full+half;
+  }
+  if(rating > 4.75 && rating <= 5 || num == 5)
+  {
+    return full+full+full+full+full;
+  }
+  else
+  {
+    console.log('Error: Cannot get rating string');
+  }
+}
+
 
 function createAppointmentButtons(place){
   var name = place.name;
@@ -191,7 +341,7 @@ function createAppointmentButtons(place){
   for(var i = 0; i < availableTimes.length; i++)
   {
     resultstr += " "+createAppointmentString(name, address, availableTimes[i], datestr, id);
-  }
+  }  
 
   return resultstr;
 }
@@ -239,14 +389,16 @@ function createAppointmentString(salon_name, salon_address, time, date, salonID)
 function insertPic(data) {
     if (!data) {
       var num = Math.floor((Math.random()*6)+1);
-      var pic = '<div class="icon"><img src="images/'+num+'.jpg" class="salon-icon img-rounded" /></div>';
+      var pic = '<div class="icon img-rounded" style="background: url(\'images/'+num+'.jpg\') center no-repeat;"></div>';
+      // var pic = '<div class="icon"><img src="images/'+num+'.jpg" class="salon-icon img-rounded" /></div>';
       return pic;
     }
 
     else {
       var url = data[0].getUrl({'maxWidth': 150, 'maxHeight': 150});
       // console.log(url);
-      var pic = "<div class='icon'><img src='"+url+"' class='salon-icon img-rounded'></div>";
+      var pic = '<div class="icon img-rounded" style="background-image: url(\' '+url+' \');"></div>';
+      // var pic = "<div class='icon'><img src='"+url+"' class='salon-icon img-rounded'></div>";
       // console.log(pic);
       return pic;
       // console.log(pic);
@@ -316,6 +468,14 @@ function handleUnknown(){
   var x = $('.wrapper');
   x.append("<h3>Sorry, it looks like an unknown error occurred</h3>");
   x.append("<p>Please try your request again</p>");
+}
+
+function notifyNoResults(){
+  console.log("ERROR: No location results returned");
+  var x = $('.wrapper');
+  var html = "<h3>Sorry, no results matched your query: "+requestName;
+  html += "<p>Please click <a href=\'index.html\'>here</a> to return to the home page and try again</p>";
+  x.append(html);
 }
 
 google.maps.event.addDomListener(window, 'load', getUserLocation);
