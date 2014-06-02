@@ -329,12 +329,9 @@ function createAppointmentButtons(place){
   storeSalonID(id, reference, name, address);
 
   var now = getCurrentTimePieces();
-  console.log("now is: ", now);
   var hours = place.opening_hours.periods;
   var sortedHours = hours.sort(sortOpeningTimes);
   var todayIndex = getTodaysIndex(now[2], sortedHours);
-  console.log("hours is: ", sortedHours);
-  console.log("Today index is: ", todayIndex);
   var resultstr = "";
   if(todayIndex > -1)
   {
