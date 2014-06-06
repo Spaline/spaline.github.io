@@ -7,10 +7,11 @@
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="JS/salongeneration.js"></script>
-        <script type="text/javascript" src="JS/utilities.js"></script>
+        <script type="text/javascript" src="js/salongeneration.js"></script>
+        <script type="text/javascript" src="js/utilities.js"></script>
         <script>
             $(function() {
                 $( "#date-search" ).datepicker();
@@ -68,12 +69,41 @@
                     <div class="details"></div>
 
                     <div class="list-stylists">
-                    
-                        Search: <input id="stylist-search" type="text" style="margin-bottom:20px"></input>
-                        <div id="cancel-search" onclick="clearSearch()">X</div>
-                        Date: <input id="date-search" type="text"></input>
-                        <div type="button" class="btn btn-default" id="change-date">Change Date</div>
-                    
+                        
+
+                        <!-- Filter -->
+                        <div id="filter-btn">
+                          <button type="button" class="btn btn-default" onclick="show();">Filter Options <span class="filter-icon"><i class="fa fa-chevron-down"></i></span></button>
+                        </div>
+
+                        <!-- <p id="filter-header"><span>Filter</span></p> -->
+                        <div id="filter" class="filter">
+                            <div id="filter-form-div">
+                                <form id="filter-form" class="form-horizontal">
+                              
+                                    <!-- stylist -->
+                                    <div id="stylist-div" class="form-group">
+                                      <label for="stylist-search" class="col-sm-2 control-label">Stylist: </label>
+                                        <div class="col-sm-7">
+                                            <input id="stylist-search" class="form-control" type="text" style="margin-bottom:20px" placeholder="ex. Khal Drogo">
+                                            <!-- <span class="clearer glyphicon glyphicon-remove form-control-feedback"></span> -->
+                                            <div id="cancel-search" class="glyphicon glyphicon-remove" onclick="clearSearch()"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- date -->
+                                    <div id="date-div" class="form-group">
+                                      <label for="date-search" class="col-sm-2 control-label">Date: </label>
+                                      <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="date-search" name="date-search" />
+                                        <div type="button" class="btn btn-default" id="change-date">Change Date</div>
+                                      </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -212,7 +242,8 @@
             </div> -->
 
         </div>
-        <!--filter-->
+        
+
         <script type="text/javascript">
             $( "#stylists" ).click(function() {
                 $("div.reviews").hide();
@@ -233,8 +264,12 @@
                 $("div.stylists").hide();
                 $("div.services").show();
             });
-        </script>
-        <script>
+
+            function show() {
+              $( '#filter' ).toggle( 'slow' );
+              $('.filter-icon').find('i').toggleClass('fa-chevron-down fa-chevron-up');
+            }
+
             $('#stylist-search').keyup(function(){
                 var search = $('#stylist-search').val().toLowerCase()
                 $('.panel').each(function(){  
@@ -266,12 +301,12 @@
                 }
             })
 
-            function clearSearch(){
-            $('#stylist-search').val('')
-            $('.panel').each(function(){  
-                        $(this).show()
+            function clearSearch() {
+                $('#stylist-search').val('');
+                $('.panel').each(function(){  
+                    $(this).show();
                 })
-        }
+            }
         </script>
     </body>
 </html>
